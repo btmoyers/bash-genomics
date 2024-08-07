@@ -47,7 +47,7 @@ We'll search for strings inside of our fastq files. Let's first make sure we are
 directory:
 
 ```bash
-$ cd ~/shell_data/untrimmed_fastq
+$ cd ~/itcga_workshop/untrimmed_fastq
 ```
 
 Suppose we want to see how many reads in our file have really bad segments containing 10 consecutive unknown nucleotides (Ns).
@@ -61,18 +61,18 @@ results to illustrate some principles of file searching. It can be really useful
 type of searching to get a feel for the quality of your sequencing results, however, in your
 research you will most likely use a bioinformatics tool that has a built-in program for
 filtering out low-quality reads. You'll learn how to use one such tool in
-[a later lesson](https://datacarpentry.org/wrangling-genomics/02-quality-control).
+[a later lesson](https://btmoyers.github.io/wrangling-transcriptomics/02-quality-control.html).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Let's search for the string NNNNNNNNNN in the SRR098026 file:
+Let's search for the string NNNNNNN (7 Ns) in the C1_S4_L001_R1_001_downsampled file:
 
 ```bash
-$ grep NNNNNNNNNN SRR098026.fastq
+$ grep NNNNNNN C1_S4_L001_R1_001_downsampled.fastq
 ```
 
-This command returns a lot of output to the terminal. Every single line in the SRR098026
-file that contains at least 10 consecutive Ns is printed to the terminal, regardless of how long or short the file is.
+This command prints every single line in the C1_S4_L001_R1_001_downsampled
+file that contains at least seven consecutive Ns, regardless of how long or short the file is.
 We may be interested not only in the actual sequence which contains this string, but
 in the name (or identifier) of that sequence. We discussed in a previous lesson
 that the identifier line immediately precedes the nucleotide sequence for each read
@@ -85,27 +85,27 @@ each match. The `-A` argument returns a specific number of lines after each matc
 matching line, so we add `-B1 -A2` to our grep command:
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq
 ```
 
-One of the sets of lines returned by this command is:
+One of the sets of lines (the last one) returned by this command is:
 
 ```output
-@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@D00345:37:HBATBADXX:1:2216:4612:101403 1:N:0:NCCAAT
+ATGCTTTTCTTCAGAATGGCTGTAAACATGCTCCAGACNTCTNCNNNNNNN
++
+CCCFFFFFHHHHHJJJJJJIJJIIJJJJJJJGHIJJJJ#2CG#0#######
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Exercise
 
-1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file.
+1. Search for the sequence `TACTAAAGTCGCCC` in the `C1_S4_L001_R1_001_downsampled.fastq` file.
   Have your search return all matching lines and the name (or identifier) for each sequence
   that contains a match.
 
-2. Search for the sequence `AAGTT` in both FASTQ files.
+2. Search for the sequence `AAGTTAATGC` in both `C1_S4_L001_R1_001_downsampled.fastq` and `C1_S4_L001_R2_001_downsampled.fastq` FASTQ files.
   Have your search return all matching lines and the name (or identifier) for each sequence
   that contains a match.
 
@@ -113,39 +113,26 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 
 ## Solution
 
-1. `grep -B1 GNATNACCACTTCC SRR098026.fastq`
+1. `grep -B1 TACTAAAGTCGCCC C1_S4_L001_R1_001_downsampled.fastq`
 
 ```
-@SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
-GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
+...lots of lines ending with
+@D00345:37:HBATBADXX:1:1206:1451:100102 1:N:0:GCCAAT
+GATAGATCACCTGGTTTCGGGTATATGCCAATATACTAAAGTCGCCCTATT
+--
+@D00345:37:HBATBADXX:1:1206:18903:100293 1:N:0:GCCAAT
+CGGGTATATGCCAATATACTAAAGTCGCCCTATTCAGACTCGGTTTCCCTA
 ```
 
-2. `grep -B1 AAGTT *.fastq`
+2. `grep -B1 AAGTTAATGC C1_S4_L001_R*.fastq`
 
 ```
-SRR097977.fastq-@SRR097977.11 209DTAAXX_Lenski2_1_7:8:3:247:351 length=36
-SRR097977.fastq:GATTGCTTTAATGAAAAAGTCATATAAGTTGCCATG
+...lots of lines ending with
+C1_S4_L001_R2_001_downsampled.fastq-@D00345:37:HBATBADXX:1:1114:19359:67530 2:N:0:GCCAAT
+C1_S4_L001_R2_001_downsampled.fastq:ATCAAATCCAAGCGTTGAAGAAGTTAATGCCGAAATGAAAAGAGTTCAAAA
 --
-SRR097977.fastq-@SRR097977.67 209DTAAXX_Lenski2_1_7:8:3:544:566 length=36
-SRR097977.fastq:TTGTCCACGCTTTTCTATGTAAAGTTTATTTGCTTT
---
-SRR097977.fastq-@SRR097977.68 209DTAAXX_Lenski2_1_7:8:3:724:110 length=36
-SRR097977.fastq:TGAAGCCTGCTTTTTTATACTAAGTTTGCATTATAA
---
-SRR097977.fastq-@SRR097977.80 209DTAAXX_Lenski2_1_7:8:3:258:281 length=36
-SRR097977.fastq:GTGGCGCTGCTGCATAAGTTGGGTTATCAGGTCGTT
---
-SRR097977.fastq-@SRR097977.92 209DTAAXX_Lenski2_1_7:8:3:353:318 length=36
-SRR097977.fastq:GGCAAAATGGTCCTCCAGCCAGGCCAGAAGCAAGTT
---
-SRR097977.fastq-@SRR097977.139 209DTAAXX_Lenski2_1_7:8:3:703:655 length=36
-SRR097977.fastq:TTTATTTGTAAAGTTTTGTTGAAATAAGGGTTGTAA
---
-SRR097977.fastq-@SRR097977.238 209DTAAXX_Lenski2_1_7:8:3:592:919 length=36
-SRR097977.fastq:TTCTTACCATCCTGAAGTTTTTTCATCTTCCCTGAT
---
-SRR098026.fastq-@SRR098026.158 HWUSI-EAS1599_1:2:1:1:1505 length=35
-SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
+C1_S4_L001_R2_001_downsampled.fastq-@D00345:37:HBATBADXX:1:1206:13652:92131 2:N:0:GCCAAT
+C1_S4_L001_R2_001_downsampled.fastq:TATCTGTTGAATTAAAATCAAATCCAAGCGTTGAAGAAGTTAATGCCGAAA
 ```
 
 :::::::::::::::::::::::::
@@ -155,7 +142,7 @@ SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
 ## Redirecting output
 
 `grep` allowed us to identify sequences in our FASTQ files that match a particular pattern.
-All of these sequences were printed to our terminal screen, but in order to work with these
+All of these sequences were printed to our terminal screen (and it was A LOT), but in order to work with these
 sequences and perform other operations on them, we will need to capture that output in some
 way.
 
@@ -168,10 +155,10 @@ The command for redirecting output to a file is `>`.
 
 Let's try out this command and copy all the records (including all four lines of each record)
 in our FASTQ files that contain
-'NNNNNNNNNN' to another file called `bad_reads.txt`.
+'NNNNNNN' to another file called `bad_reads.txt`.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq > bad_reads.txt
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -192,17 +179,14 @@ happened. But type `ls`. You should see a new file called `bad_reads.txt`.
 
 We can check the number of lines in our new file using a command called `wc`.
 `wc` stands for **word count**. This command counts the number of words, lines, and characters
-in a file. The FASTQ file may change over time, so given the potential for updates,
-make sure your file matches your instructor's output.
-
-As of Sept. 2020, wc gives the following output:
+in a file. 
 
 ```bash
 $ wc bad_reads.txt
 ```
 
 ```output
-  802    1338   24012 bad_reads.txt
+  68   82 2268 bad_reads.txt
 ```
 
 This will tell us the number of lines, words and characters in the file. If we
@@ -213,25 +197,25 @@ $ wc -l bad_reads.txt
 ```
 
 ```output
-802 bad_reads.txt
+68 bad_reads.txt
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Exercise
 
-How many sequences are there in `SRR098026.fastq`? Remember that every sequence is formed by four lines.
+How many sequences are there in `C1_S4_L001_R1_001_downsampled.fastq`? Remember that every sequence is formed by four lines.
 
 :::::::::::::::  solution
 
 ## Solution
 
 ```bash
-$ wc -l SRR098026.fastq
+$ wc -l C1_S4_L001_R1_001_downsampled.fastq
 ```
 
 ```output
-996
+3499480 C1_S4_L001_R1_001_downsampled.fastq
 ```
 
 Now you can divide this number by four to get the number of sequences in your fastq file.
@@ -239,18 +223,18 @@ Now you can divide this number by four to get the number of sequences in your fa
 This can be done using [shell integer arithmetic](https://www.gnu.org/software/bash/manual/html_node/Shell-Arithmetic.html)
 
 ```bash
-$ echo $((996/4))
+$ echo $((3499480/4))
 ```
 
 Note, this will do integer division - if you need floating point arithmetic you can use [bc - an arbitrary precision calculator](https://www.gnu.org/software/bc/manual/html_mono/bc.html)
 
 
 ```bash
-$ echo "996/4" | bc
+$ echo "3499480/4" | bc
 ```
 
 ```output
-249
+874870
 ```
 
 :::::::::::::::::::::::::
@@ -261,19 +245,19 @@ $ echo "996/4" | bc
 
 ## Exercise
 
-How many sequences in `SRR098026.fastq` contain at least 3 consecutive Ns?
+How many sequences in `C1_S4_L001_R1_001_downsampled.fastq` contain at least 3 consecutive Ns?
 
 :::::::::::::::  solution
 
 ## Solution
 
 ```bash
-$ grep NNN SRR098026.fastq > bad_reads.txt
+$ grep NNN C1_S4_L001_R1_001_downsampled.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ```
 
 ```output
-249
+63
 ```
 
 :::::::::::::::::::::::::
@@ -287,59 +271,59 @@ This is called "overwriting" and, just like you don't want to overwrite your vid
 of your kid's first birthday party, you also want to avoid overwriting your data files.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ```
 
 ```output
-802 bad_reads.txt
+68 bad_reads.txt
 ```
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR097977.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNN T1_S7_L001_R1_001_downsampled.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ```
 
 ```output
-0 bad_reads.txt
+47 bad_reads.txt
 ```
 
-Here, the output of our second  call to `wc` shows that we no longer have any lines in our `bad_reads.txt` file. This is
-because the second file we searched (`SRR097977.fastq`) does not contain any lines that match our
+Here, the output of our second  call to `wc` shows that we have fewer lines in our `bad_reads.txt` file. This is
+because the second file we searched (`T1_S7_L001_R1_001_downsampled.fastq`) has fewer lines that match our
 search sequence. So our file was overwritten and is now empty.
 
 We can avoid overwriting our files by using the command `>>`. `>>` is known as the "append redirect" and will
 append new output to the end of a file, rather than overwriting it.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ```
 
 ```output
-802 bad_reads.txt
+68 bad_reads.txt
 ```
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR097977.fastq >> bad_reads.txt
+$ grep -B1 -A2 NNNNNNN T1_S7_L001_R1_001_downsampled.fastq >> bad_reads.txt
 $ wc -l bad_reads.txt
 ```
 
 ```output
-802 bad_reads.txt
+115 bad_reads.txt
 ```
 
-The output of our second call to `wc` shows that we have not overwritten our original data.
+The output of our second call to `wc` shows that we have not overwritten our original data (68 + 47 = 115).
 
-We can also do this with a single line of code by using a wildcard:
+We could also do this with a single line of code for all the fastq files by using a wildcard:
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNN *.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ```
 
 ```output
-802 bad_reads.txt
+22010 bad_reads.txt
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -352,7 +336,7 @@ and then ran the command above using a `.fastq` extension instead of a `.txt` ex
 would give us a warning.
 
 ```bash
-grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.fastq
+grep -B1 -A2 NNNNNNN *.fastq > bad_reads.fastq
 ```
 
 ```output
@@ -384,7 +368,7 @@ look at it, like we can with `less`. Well it turns out that we can! We can redir
 from our `grep` call through the `less` command.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq | less
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq | less
 ```
 
 We can now see the output from our `grep` call within the `less` interface. We can use the up and down arrows
@@ -395,53 +379,51 @@ the output of the grep search to the command `wc -l`. This can be helpful for in
 you would like to save it to a file.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq | wc -l 
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq | wc -l 
 ```
 
 Because we asked `grep` for all four lines of each FASTQ record, we need to divide the output by
-four to get the number of sequences that match our search pattern. Since 802 / 4 = 200.5 and we
-are expecting an integer number of records, there is something added or missing in `bad_reads.txt`.
-If we explore `bad_reads.txt` using `less`, we might be able to notice what is causing the uneven
-number of lines. Luckily, this issue happens by the end of the file so we can also spot it with `tail`.
+four to get the number of sequences that match our search pattern.
+
+However, if we explore `bad_reads.txt` using `less` (or pipe the output from the `grep` command to `less`, `head`, or `tail`), we might notice something unexpected.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq | head
 $ tail bad_reads.txt
 ```
 
 ```output
-@SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35
-ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
-+SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35
-#!!!!!!!!!##########!!!!!!!!!!##!#!
+@D00345:37:HBATBADXX:1:2214:4155:101401 1:N:0:GCCAAT
+AATTTTTTTATTTTGAACTATTAGATTAAAATAGAATTGCAAGANNNNNNN
++
+C@@FFDFFHHGHHIHHGJIDHGFGGGHGIJDHDGIGDGIIGEGH#######
 --
+@D00345:37:HBATBADXX:1:2202:7183:101402 1:N:0:NCCAAT
+TAAAATTCAGGCCTCACANTGTCTGCATACTGGGCCACNGCCNCNNNNNNN
++
+CCCFFFFFHHHHHJJJJJ#3AFGIIJJJJJJJJJJIJJ#0?F#0#######
 --
-@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ```
 
-The fifth and six lines in the output display "--" which is the default action for `grep` to separate groups of
+The fifth and tenth lines in the output display "--" which is the default action for `grep` to separate groups of
 lines matching the pattern, and indicate groups of lines which did not match the pattern so are not displayed.
-To fix this issue, we can redirect the output of grep to a second instance of `grep` as follows.
+To fix this issue, we can redirect the output of grep to a second instance of `grep` and then `head` (two pipes!) as follows.
 
 ```bash
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq | grep -v '^--' > bad_reads.fastq
-$ tail bad_reads.fastq
+$ grep -B1 -A2 NNNNNNN C1_S4_L001_R1_001_downsampled.fastq | grep -v '^--' | head
 ```
 
 ```output
-+SRR098026.132 HWUSI-EAS1599_1:2:1:0:320 length=35
-#!!!!!!!!!##########!!!!!!!!!!##!#!
-@SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35
-ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
-+SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35
-#!!!!!!!!!##########!!!!!!!!!!##!#!
-@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@D00345:37:HBATBADXX:1:2214:4155:101401 1:N:0:GCCAAT
+AATTTTTTTATTTTGAACTATTAGATTAAAATAGAATTGCAAGANNNNNNN
++
+C@@FFDFFHHGHHIHHGJIDHGFGGGHGIJDHDGIGDGIIGEGH#######
+@D00345:37:HBATBADXX:1:2202:7183:101402 1:N:0:NCCAAT
+TAAAATTCAGGCCTCACANTGTCTGCATACTGGGCCACNGCCNCNNNNNNN
++
+CCCFFFFFHHHHHJJJJJ#3AFGIIJJJJJJJJJJIJJ#0?F#0#######
+@D00345:37:HBATBADXX:1:2204:17816:101401 1:N:0:GCCAAT
+CCACAATCCAGTAAGTGGTAGAACTATCCTTTTTCGTCACTCCANNNNNNN
 ```
 
 The `-v` option in the second `grep` search stands for `--invert-match` meaning `grep` will now only display the
@@ -471,7 +453,7 @@ efficiently.
 
 ## File manipulation and more practices with pipes
 
-To practice a bit more with the tools we've added to our tool kit so far and learn a few extra ones you can follow [this extra lesson](Extra_lesson.md) which uses the SRA metadata file.
+To practice a bit more with the tools we've added to our tool kit so far and learn a few extra ones you can follow [this extra lesson](Extra_lesson.md) which uses the metadata file.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -528,7 +510,7 @@ $ for filename in *.fastq
 ```
 
 The for loop begins with the formula `for <variable> in <group to iterate over>`. In this case, the word `filename` is designated
-as the variable to be used over each iteration. In our case `SRR097977.fastq` and `SRR098026.fastq` will be substituted for `filename`
+as the variable to be used over each iteration. In our case each file name in the output of `echo *.fastq` will be substituted for `filename`
 because they fit the pattern of ending with .fastq in the directory we've specified. The next line of the for loop is `do`. The next line is
 the code that we want to execute. We are telling the loop to print the first two lines of each variable we iterate over. Finally, the
 word `done` ends the loop.
@@ -557,23 +539,23 @@ every time the loop iterates, so it would only have text from the last variable 
 Basename is a function in UNIX that is helpful for removing a uniform part of a name from a list of files. In this case, we will use basename to remove the `.fastq` extension from the files that we've been working with.
 
 ```bash
-$ basename SRR097977.fastq .fastq
+$ basename C1_S4_L001_R1_001_downsampled.fastq .fastq
 ```
 
-We see that this returns just the SRR accession, and no longer has the .fastq file extension on it.
+We see that this returns just `C1_S4_L001_R1_001_downsampled`, and no longer has the .fastq file extension on it.
 
 ```output
-SRR097977
+C1_S4_L001_R1_001_downsampled
 ```
 
 If we try the same thing but use `.fasta` as the file extension instead, nothing happens. This is because basename only works when it exactly matches a string in the file.
 
 ```bash
-$ basename SRR097977.fastq .fasta
+$ basename C1_S4_L001_R1_001_downsampled.fastq .fasta
 ```
 
 ```output
-SRR097977.fastq
+C1_S4_L001_R1_001_downsampled.fastq
 ```
 
 Basename is really powerful when used in a for loop. It allows to access just the file prefix, which you can use to name things. Let's try this.
@@ -616,7 +598,7 @@ One way this is really useful is to move files. Let's rename all of our .txt fil
 $ for filename in *.txt
 > do
 > name=$(basename ${filename} .txt)
-> mv ${filename}  ${name}_2019.txt
+> mv ${filename}  ${name}_2024.txt
 > done
 ```
 
@@ -624,16 +606,16 @@ $ for filename in *.txt
 
 ## Exercise
 
-Remove `_2019` from all of the `.txt` files.
+Remove `_2024` from all of the `.txt` files.
 
 :::::::::::::::  solution
 
 ## Solution
 
 ```bash
-$ for filename in *_2019.txt
+$ for filename in *_2024.txt
 > do
-> name=$(basename ${filename} _2019.txt)
+> name=$(basename ${filename} _2024.txt)
 > mv ${filename} ${name}.txt
 > done
 ```
