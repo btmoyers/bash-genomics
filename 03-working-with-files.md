@@ -35,7 +35,7 @@ have two results files, which are stored in our `untrimmed_fastq` directory.
 Navigate to your `untrimmed_fastq` directory:
 
 ```bash
-$ cd ~/shell_data/untrimmed_fastq
+$ cd ~/itcga_workshop/untrimmed_fastq
 ```
 
 We are interested in looking at the FASTQ files in this directory. We can list
@@ -46,7 +46,9 @@ $ ls *.fastq
 ```
 
 ```output
-SRR097977.fastq  SRR098026.fastq
+C1_S4_L001_R1_001_downsampled.fastq  T1_S7_L001_R2_001_downsampled.fastq
+C1_S4_L001_R2_001_downsampled.fastq  V1_S1_L001_R1_001_downsampled.fastq
+T1_S7_L001_R1_001_downsampled.fastq  V1_S1_L001_R2_001_downsampled.fastq
 ```
 
 The `*` character is a special type of character called a wildcard, which can be used to represent any number of any type of character.
@@ -55,14 +57,14 @@ Thus, `*.fastq` matches every file that ends with `.fastq`.
 This command:
 
 ```bash
-$ ls *977.fastq
+$ ls C1*.fastq
 ```
 
 ```output
-SRR097977.fastq
+C1_S4_L001_R1_001_downsampled.fastq  C1_S4_L001_R2_001_downsampled.fastq
 ```
 
-lists only the file that ends with `977.fastq`.
+lists only the files that start with `C1` and ends with `.fastq`.
 
 This command:
 
@@ -71,7 +73,10 @@ $ ls /usr/bin/*.sh
 ```
 
 ```output
-/usr/bin/amuFormat.sh  /usr/bin/gettext.sh  /usr/bin/gvmap.sh
+/usr/bin/amuFormat.sh  /usr/bin/nvidia-bug-report.sh  /usr/bin/source-highlight-esc.sh
+/usr/bin/gettext.sh    /usr/bin/nvidia-sleep.sh       /usr/bin/src-hilite-lesspipe.sh
+/usr/bin/gvmap.sh      /usr/bin/rescan-scsi-bus.sh
+/usr/bin/lesspipe.sh   /usr/bin/setup-nsssysinit.sh
 ```
 
 Lists every file in `/usr/bin` that ends in the characters `.sh`.
@@ -122,7 +127,9 @@ $ echo *.fastq
 ```
 
 ```output
-SRR097977.fastq SRR098026.fastq
+C1_S4_L001_R1_001_downsampled.fastq  T1_S7_L001_R2_001_downsampled.fastq
+C1_S4_L001_R2_001_downsampled.fastq  V1_S1_L001_R1_001_downsampled.fastq
+T1_S7_L001_R1_001_downsampled.fastq  V1_S1_L001_R2_001_downsampled.fastq
 ```
 
 The `*` is expanded to include any file that ends with `.fastq`. We can see that the output of
@@ -225,26 +232,26 @@ contents using the program `cat`.
 Enter the following command from within the `untrimmed_fastq` directory:
 
 ```bash
-$ cat SRR098026.fastq
+$ cat C1_S4_L001_R1_001_downsampled.fastq
 ```
 
-This will print out all of the contents of the `SRR098026.fastq` to the screen.
+This will print out all of the contents of the `C1_S4_L001_R1_001_downsampled.fastq` to the screen. It will take a few seconds, because even though this is only 5% of the original sequence data file (more on that later) it is still a lot of data!
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Exercise
 
-1. Print out the contents of the `~/shell_data/untrimmed_fastq/SRR097977.fastq` file. What is the last line of the file?
+1. Print out the contents of the `~/itcga_workshop/untrimmed_fastq/C1_S4_L001_R1_001_downsampled.fastq` file. What is the last line of the file?
 2. From your home directory, and without changing directories,
   use one short command to print the contents of all of the files in
-  the `~/shell_data/untrimmed_fastq` directory.
+  the `~/itcga_workshop/untrimmed_fastq` directory. Note: this will take about six times as long as printing just one of the .fastq files!
 
 :::::::::::::::  solution
 
 ## Solution
 
-1. The last line of the file is `C:CCC::CCCCCCCC<8?6A:C28C<608'&&&,'$`.
-2. `cat ~/shell_data/untrimmed_fastq/*`
+1. The last line of the file is `CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJJJJJJJJJFHHH###--#-`.
+2. `cat ~/itcga_workshop/untrimmed_fastq/*`
 
 :::::::::::::::::::::::::
 
@@ -258,7 +265,7 @@ are identical to the `man` program.
 Enter the following command:
 
 ```bash
-$ less SRR097977.fastq
+$ less C1_S4_L001_R1_001_downsampled.fastq
 ```
 
 Some navigation commands in `less`:
@@ -276,7 +283,7 @@ Some navigation commands in `less`:
 to search for and press `enter`. The screen will jump to the next location where
 that word is found.
 
-**Shortcut:** If you hit "/" then "enter", `less` will  repeat
+**Shortcut:** If you hit `/` then `Enter`, `less` will  repeat
 the previous search. `less` searches from the current location and
 works its way forward. Scroll up a couple lines on your terminal to verify
 you are at the beginning of the file. Note, if you are at the end of the file and search
@@ -300,7 +307,7 @@ What are the next three nucleotides (characters) after the first instance of the
 
 ## Solution
 
-`CAC`
+`AAT`
 
 :::::::::::::::::::::::::
 
@@ -318,56 +325,56 @@ The commands are `head` and `tail` and they let you look at
 the beginning and end of a file, respectively.
 
 ```bash
-$ head SRR098026.fastq
+$ head T1_S7_L001_R1_001_downsampled.fastq
 ```
 
 ```output
-@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
-+SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
-@SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
-NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
-+SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
-@SRR098026.3 HWUSI-EAS1599_1:2:1:0:570 length=35
-NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
+@D00345:37:HBATBADXX:1:1214:3675:1934 1:N:0:AGTCAA
+GTTTGGGCTCTTTCGCTTTCGCTCGCCACTACTGACGAAATCATTATTTAT
++
+CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJIJJJJHIJJJJJJJJJJIJ
+@D00345:37:HBATBADXX:1:1214:4199:1963 1:N:0:AGTCAA
+GTACTAATCCCGAGTCTTACATTGCGATGCCTCACTATCCCCACAGCCCCA
++
+?+1:DD?DAADD<E+A<<CE<<E>@<C@EE??CD;<DD<DDD?@6/8BDAC
+@D00345:37:HBATBADXX:1:1214:4770:1936 1:N:0:AGTCAA
+TAGAATACTCATCTTGGGAACGTGTGTTCGTTCTCGGTACAGGTTGATAAA
 ```
 
 ```bash
-$ tail SRR098026.fastq
+$ tail T1_S7_L001_R1_001_downsampled.fastq
 ```
 
 ```output
-+SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
-#!##!#################!!!!!!!######
-@SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
-GNTGNGGTCATCATACGCGCCCNNNNNNNGGCATG
-+SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
-B!;?!A=5922:##########!!!!!!!######
-@SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
-CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT
-+SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
-A!@B!BBB@ABAB#########!!!!!!!######
++
+@@@FDFDFHHHHGJIGHIIHIIGHIJJIIHGGIGGFGIJJJCF?AB@GGHI
+@D00345:37:HBATBADXX:1:1206:18241:101267 1:N:0:AGTCAA
+GTAGATTGCTGTGCATTAGCTAATGGGTTATCTACATTTTGTTTAGTTACT
++
+BBBFDFFFHHFFFIIIJJIJJJGJIII@FHIIJJIGGIGJIFHIJJIIIII
+@D00345:37:HBATBADXX:1:1206:20554:101269 1:N:0:AGTCAA
+GGAGTTTTGACCTGCTCCGTTTCCGACCTGGGCCGGTTCACCCCTCCTTAG
++
+CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJJJJJHJJJJJJJJJJJHHH
 ```
 
 The `-n` option to either of these commands can be used to print the
 first or last `n` lines of a file.
 
 ```bash
-$ head -n 1 SRR098026.fastq
+$ head -n 1 T1_S7_L001_R1_001_downsampled.fastq
 ```
 
 ```output
-@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+@D00345:37:HBATBADXX:1:1214:3675:1934 1:N:0:AGTCAA
 ```
 
 ```bash
-$ tail -n 1 SRR098026.fastq
+$ tail -n 1 T1_S7_L001_R1_001_downsampled.fastq
 ```
 
 ```output
-A!@B!BBB@ABAB#########!!!!!!!######
+CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJJJJJHJJJJJJJJJJJHHH
 ```
 
 ## Details on the FASTQ format
@@ -387,17 +394,17 @@ We can view the first complete read in one of the files in our dataset by using 
 the first four lines.
 
 ```bash
-$ head -n 4 SRR098026.fastq
+$ head -n 4 T1_S7_L001_R1_001_downsampled.fastq
 ```
 
 ```output
-@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
-+SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+@D00345:37:HBATBADXX:1:1214:3675:1934 1:N:0:AGTCAA
+GTTTGGGCTCTTTCGCTTTCGCTCGCCACTACTGACGAAATCATTATTTAT
++
+CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJIJJJJHIJJJJJJJJJJIJ
 ```
 
-All but one of the nucleotides in this read are unknown (`N`). This is a pretty bad read!
+All of the nucleotides in this read are known (no `N` characters in the second line).
 
 Line 4 shows the quality for each nucleotide in the read. Quality is interpreted as the
 probability of an incorrect base call (e.g. 1 in 10) or, equivalently, the base call
@@ -407,11 +414,11 @@ represents the numerical quality score for an individual nucleotide. For example
 above, the quality score line is:
 
 ```output
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJIJJJJHIJJJJJJJJJJIJ
 ```
 
-The `#` character and each of the `!` characters represent the encoded quality for an
-individual nucleotide. The numerical value assigned to each of these characters depends on the
+The `C`,`F`, and other characters represent the encoded quality for each
+individual nucleotide in the read right above it. The numerical value assigned to each of these characters depends on the
 sequencing platform that generated the reads. The sequencing machine used to generate our data
 uses the standard Sanger quality PHRED score encoding, Illumina version 1.8 onwards.
 Each character is assigned a quality score between 0 and 42 as shown in the chart below.
@@ -431,15 +438,13 @@ much signal was captured for the base incorporation.
 Looking back at our read:
 
 ```output
-@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
-+SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+@D00345:37:HBATBADXX:1:1214:3675:1934 1:N:0:AGTCAA
+GTTTGGGCTCTTTCGCTTTCGCTCGCCACTACTGACGAAATCATTATTTAT
++
+CCCFFFFFHHHHHJJJJJJJJJJJJJJJJJJJIJJJJHIJJJJJJJJJJIJ
 ```
 
-we can now see that the quality of each of the `N`s is 0 and the quality of the only
-nucleotide call (`C`) is also very poor (`#` = a quality score of 2). This is indeed a very
-bad read.
+We can now see that the quality of each of the nucleotides is pretty good (`C` = a quality score of 34, and `J` is 39, or almost 99.99%). Good job, sequencing technology, and good job, you!
 
 ## Creating, moving, copying, and removing
 
@@ -457,18 +462,21 @@ and change the file permissions so that we can read from, but not write to, the 
 
 First, let's make a copy of one of our FASTQ files using the `cp` command.
 
-Navigate to the `shell_data/untrimmed_fastq` directory and enter:
+Navigate to the `itcga_workshop/untrimmed_fastq` directory and enter:
 
 ```bash
-$ cp SRR098026.fastq SRR098026-copy.fastq
+$ cp T1_S7_L001_R1_001_downsampled.fastq T1_S7_L001_R1_001_downsampled-copy.fastq
 $ ls -F
 ```
 
 ```output
-SRR097977.fastq  SRR098026-copy.fastq  SRR098026.fastq
+C1_S4_L001_R1_001_downsampled.fastq       T1_S7_L001_R2_001_downsampled.fastq
+C1_S4_L001_R2_001_downsampled.fastq       V1_S1_L001_R1_001_downsampled.fastq
+T1_S7_L001_R1_001_downsampled-copy.fastq  V1_S1_L001_R2_001_downsampled.fastq
+T1_S7_L001_R1_001_downsampled.fastq
 ```
 
-We now have two copies of the `SRR098026.fastq` file, one of them named `SRR098026-copy.fastq`. We'll move this file to a new directory
+We now have two copies of the `T1_S7_L001_R1_001_downsampled.fastq` file, one of them named `T1_S7_L001_R1_001_downsampled-copy.fastq`. We'll move this file to a new directory
 called `backup` where we'll store our backup data files.
 
 ### Creating Directories
@@ -486,24 +494,24 @@ We can now move our backup file to this directory. We can
 move files around using the command `mv`:
 
 ```bash
-$ mv SRR098026-copy.fastq backup
+$ mv T1_S7_L001_R1_001_downsampled-copy.fastq backup
 $ ls backup
 ```
 
 ```output
-SRR098026-copy.fastq
+T1_S7_L001_R1_001_downsampled-copy.fastq
 ```
 
 The `mv` command is also how you rename files. Let's rename this file to make it clear that this is a backup:
 
 ```bash
 $ cd backup
-$ mv SRR098026-copy.fastq SRR098026-backup.fastq
+$ mv T1_S7_L001_R1_001_downsampled-copy.fastq T1_S7_L001_R1_001_downsampled-backup.fastq
 $ ls
 ```
 
 ```output
-SRR098026-backup.fastq
+T1_S7_L001_R1_001_downsampled-backup.fastq
 ```
 
 ### File Permissions
@@ -519,7 +527,7 @@ $ ls -l
 ```
 
 ```output
--rw-r--r-- 1 dcuser dcuser 43332 Nov 15 23:02 SRR098026-backup.fastq
+-rw-r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 T1_S7_L001_R1_001_downsampled-backup.fastq
 ```
 
 The first part of the output for the `-l` flag gives you information about the file's current permissions. There are ten slots in the
@@ -538,12 +546,12 @@ talk more about this in [a later lesson](05-writing-scripts.md)).
 Our goal for now is to change permissions on this file so that you no longer have `w` or write permissions. We can do this using the `chmod` (change mode) command and subtracting (`-`) the write permission `-w`.
 
 ```bash
-$ chmod -w SRR098026-backup.fastq
+$ chmod -w T1_S7_L001_R1_001_downsampled-backup.fastq
 $ ls -l 
 ```
 
 ```output
--r--r--r-- 1 dcuser dcuser 43332 Nov 15 23:02 SRR098026-backup.fastq
+-r--r--r-- 1 dcuser dcuser 43332 Nov 15 23:02 T1_S7_L001_R1_001_downsampled-backup.fastq
 ```
 
 ### Removing
@@ -551,13 +559,13 @@ $ ls -l
 To prove to ourselves that you no longer have the ability to modify this file, try deleting it with the `rm` command:
 
 ```bash
-$ rm SRR098026-backup.fastq
+$ rm T1_S7_L001_R1_001_downsampled-backup.fastq
 ```
 
 You'll be asked if you want to override your file permissions:
 
 ```output
-rm: remove write-protected regular file ‘SRR098026-backup.fastq'? 
+rm: remove write-protected regular file ‘T1_S7_L001_R1_001_downsampled-backup.fastq'? 
 ```
 
 You should enter `n` for no. If you enter `n` (for no), the file will not be deleted. If you enter `y`, you will delete the file. This gives us an extra
@@ -584,12 +592,11 @@ you will be asked whether you want to override your permission settings.
 
 ## Exercise
 
-Starting in the `shell_data/untrimmed_fastq/` directory, do the following:
+Starting in the `itcga_workshop/untrimmed_fastq/` directory, do the following:
 
 1. Make sure that you have deleted your backup directory and all files it contains.
-2. Create a backup of each of your FASTQ files using `cp`. (Note: You'll need to do this individually for each of the two FASTQ files. We haven't
-  learned yet how to do this
-  with a wildcard.)
+2. Create a backup of each of your FASTQ files using `cp`. (Note: You'll need to do this individually for each of the six FASTQ files. We haven't
+ learned yet how to do this with a wildcard.)
 3. Use a wildcard to move all of your backup files to a new backup directory.
 4. Change the permissions on all of your backup files to be write-protected.
 
@@ -598,14 +605,26 @@ Starting in the `shell_data/untrimmed_fastq/` directory, do the following:
 ## Solution
 
 1. `rm -r backup`
-2. `cp SRR098026.fastq SRR098026-backup.fastq` and `cp SRR097977.fastq SRR097977-backup.fastq`
+2. `cp C1_S4_L001_R1_001_downsampled.fastq C1_S4_L001_R1_001_downsampled-backup.fastq` and
+`cp C1_S4_L001_R2_001_downsampled.fastq C1_S4_L001_R2_001_downsampled-backup.fastq` and 
+`cp T1_S7_L001_R1_001_downsampled.fastq T1_S7_L001_R1_001_downsampled-backup.fastq` and 
+`cp T1_S7_L001_R2_001_downsampled.fastq T1_S7_L001_R2_001_downsampled-backup.fastq` and 
+`cp V1_S1_L001_R1_001_downsampled.fastq V1_S1_L001_R1_001_downsampled-backup.fastq` and 
+`cp V1_S1_L001_R2_001_downsampled.fastq V1_S1_L001_R2_001_downsampled-backup.fastq`
+
 3. `mkdir backup` and `mv *-backup.fastq backup`
 4. `chmod -w backup/*-backup.fastq`  
   It's always a good idea to check your work with `ls -l backup`. You should see something like:
 
 ```output
--r--r--r-- 1 dcuser dcuser 47552 Nov 15 23:06 SRR097977-backup.fastq
--r--r--r-- 1 dcuser dcuser 43332 Nov 15 23:06 SRR098026-backup.fastq
+-r--r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 C1_S4_L001_R1_001_downsampled-backup.fastq
+-r--r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 C1_S4_L001_R2_001_downsampled-backup.fastq
+-r--r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 T1_S7_L001_R1_001_downsampled-backup.fastq
+-r--r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 T1_S7_L001_R2_001_downsampled-backup.fastq
+-r--r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 
+V1_S1_L001_R1_001_downsampled-backup.fastq
+-r--r--r-- 1 brook.moyers brook.moyers 131292074 Aug  7 00:55 
+V1_S1_L001_R2_001_downsampled-backup.fastq
 ```
 
 :::::::::::::::::::::::::
