@@ -73,7 +73,7 @@ $ ssh your.umb.username@chimera.umb.edu
 
 The press the `Enter` key. If it asks you to confirm the server identity or ssh key certificate (which should happen the first time you log in), type yes and press the `Enter` key. When prompted, type in your UMass Boston email password and the `Enter` key.
 
-You can learn more about [research computing at UMass Boston here](https://www.umb.edu/rc/hpc/).
+You can learn more about [research computing at UMass Boston here](https://www.umb.edu/rc/hpc/). Note that you either need to be on a campus internet network or [using a VPN](https://umassboston.service-now.com/sp?id=kb_article_view&sysparm_article=KB0010685&sys_kb_id=bde423a21be0e51078b5a6ca234bcbcc&spa=1) to connect with chimera.
 
 After logging in, you will see a screen showing something like this:
 
