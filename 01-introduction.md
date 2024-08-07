@@ -73,6 +73,8 @@ $ ssh your.umb.username@chimera.umb.edu
 
 The press the `Enter` key. If it asks you to confirm the server identity or ssh key certificate (which should happen the first time you log in), type yes and press the `Enter` key. When prompted, type in your UMass Boston email password and the `Enter` key.
 
+You can learn more about [research computing at UMass Boston here](https://www.umb.edu/rc/hpc/).
+
 After logging in, you will see a screen showing something like this:
 
 ```output
