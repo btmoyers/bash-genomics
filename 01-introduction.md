@@ -57,7 +57,7 @@ you'll need to download a separate program to access the shell.
 
 To save time, we are going to be working on a remote server where all the necessary data and software available.
 When we say a 'remote server', we are talking about a computer that is not the one you are working on right now.
-You will access the Carpentries remote server where everything is prepared for the lesson.
+You will access the UMass Boston remote server named "chimera" where everything is prepared for the lesson.
 We will learn the basics of the shell by manipulating some data files. Some of these files are very large
 , and would take time to download to your computer.
 We will also be using several bioinformatic packages in later lessons and installing all of the software
@@ -65,41 +65,23 @@ would take up time even more time. A 'ready-to-go' server lets us focus on learn
 
 ## How to access the remote server
 
-You can log-in to the remote server using the [instructions from the Introduction to Cloud Computing for Genomics lesson](https://datacarpentry.org/cloud-genomics/02-logging-onto-cloud#logging-onto-a-cloud-instance).
-Your instructor will supply to you the `ip_address` and password that you need to login.
+Because we have already created an account for you, you can log in to the remote server "chimera" with your UMass Boston email credentials (same username and password) by opening your terminal and typing: 
 
-Each of you will have a different `ip_address`. This will
-prevent us from accidentally changing each other's files as we work through the
-exercises. The password will be the same for everyone.
+```bash
+$ ssh your.umb.username@chimera.umb.edu
+```
+
+The press the `Enter` key. If it asks you to confirm the server identity or ssh key certificate (which should happen the first time you log in), type yes and press the `Enter` key. When prompted, type in your UMass Boston email password and the `Enter` key.
 
 After logging in, you will see a screen showing something like this:
 
 ```output
-Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.4.0-137-generic x86_64)
+Activate the web console with: systemctl enable --now cockpit.socket
 
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-  System information as of Mon 13 Mar 2023 03:57:46 AM UTC
-
-  System load:  0.0                Processes:             192
-  Usage of /:   20.3% of 98.27GB   Users logged in:       0
-  Memory usage: 25%                IPv4 address for eth0: 172.31.12.214
-  Swap usage:   0%
-
-  Get cloud support with Ubuntu Advantage Cloud Guest:
-    http://www.ubuntu.com/business/services/cloud
-
-178 updates can be applied immediately.
-108 of these updates are standard security updates.
-To see these additional updates run: apt list --upgradable
-
-
-Last login: Fri Mar 10 03:14:44 2023 from 72.83.168.14
+Last login: Wed Aug  7 00:40:39 2024 from 10.23.0.78
 ```
 
-This provides a lot of information about the remote server that you're logging into. We're not going to use most of this information for
+This provides some information about the remote server that you're logging into. We're not going to use most of this information for
 our workshop, so you can clear your screen using the `clear` command.
 
 Type the word `clear` into the terminal and press the `Enter` key.
@@ -175,15 +157,15 @@ i.e.,
 the directory that the computer assumes we want to run commands in,
 unless we explicitly specify something else.
 Here,
-the computer's response is `/home/dcuser`,
-which is the top level directory within our cloud system:
+the computer's response is `/home/your.UMB.username`,
+which is your personal home folder on the chimera server:
 
 ```bash
 $ pwd
 ```
 
 ```output
-/home/dcuser
+/home/your.UMB.username
 ```
 
 Let's look at how our file system is organized. We can see what files and subdirectories are in this directory by running `ls`,
@@ -194,23 +176,23 @@ $ ls
 ```
 
 ```output
-R  r_data  shell_data
+bin  itcga_workshop
 ```
 
 `ls` prints the names of the files and directories in the current directory in
 alphabetical order,
 arranged neatly into columns.
-We'll be working within the `shell_data` subdirectory, and creating new subdirectories, throughout this workshop.
+We'll be working within the `itcga_workshop` subdirectory, and creating new subdirectories, throughout this workshop.
 
 The command to change locations in our file system is `cd`, followed by a
 directory name to change our working directory.
 `cd` stands for "change directory".
 
-Let's say we want to navigate to the `shell_data` directory we saw above.  We can
+Let's say we want to navigate to the `itcga_workshop` directory we saw above.  We can
 use the following command to get there:
 
 ```bash
-$ cd shell_data
+$ cd itcga_workshop
 ```
 
 Let's look at what is in this directory:
@@ -220,7 +202,7 @@ $ ls
 ```
 
 ```output
-sra_metadata  untrimmed_fastq
+metadata  untrimmed_fastq
 ```
 
 We can make the `ls` output more comprehensible by using the **flag** `-F`,
@@ -231,7 +213,7 @@ $ ls -F
 ```
 
 ```output
-sra_metadata/  untrimmed_fastq/
+metadata/  untrimmed_fastq/
 ```
 
 Anything with a "/" after it is a directory. Things with a "\*" after them are programs. If
@@ -267,9 +249,9 @@ $ ls -l
 ```
 
 ```output
-total 8
-drwxr-x--- 2 dcuser dcuser 4096 Jul 30  2015 sra_metadata
-drwxr-xr-x 2 dcuser dcuser 4096 Nov 15  2017 untrimmed_fastq
+total 1
+drwxrwxr-x 2 brook.moyers brook.moyers 2 Aug  7 00:50 metadata
+drwxrwxr-x 2 brook.moyers brook.moyers 2 Aug  7 00:50 untrimmed_fastq
 ```
 
 The additional information given includes the name of the owner of the file,
@@ -292,10 +274,12 @@ $ ls -F
 ```
 
 ```output
-SRR097977.fastq  SRR098026.fastq
+C1_S4_L001_R1_001_downsampled.fastq  T1_S7_L001_R2_001_downsampled.fastq
+C1_S4_L001_R2_001_downsampled.fastq  V1_S1_L001_R1_001_downsampled.fastq
+T1_S7_L001_R1_001_downsampled.fastq  V1_S1_L001_R2_001_downsampled.fastq
 ```
 
-This directory contains two files with `.fastq` extensions. FASTQ is a format
+This directory contains six files with `.fastq` extensions. FASTQ is a format
 for storing information about sequencing reads and their quality.
 We will be learning more about FASTQ files in a later lesson.
 
@@ -316,16 +300,16 @@ $ cd
 then enter:
 
 ```bash
-$ cd she<tab>
+$ cd it<tab>
 ```
 
 The shell will fill in the rest of the directory name for
-`shell_data`.
+`itcga_workshop`.
 
-Now change directories to `untrimmed_fastq` in `shell_data`
+Now change directories to `untrimmed_fastq` in `itcga_workshop`
 
 ```bash
-$ cd shell_data
+$ cd itcga_workshop
 $ cd untrimmed_fastq
 ```
 
@@ -333,23 +317,23 @@ Using tab complete can be very helpful. However, it will only autocomplete
 a file or directory name if you've typed enough characters to provide
 a unique identifier for the file or directory you are trying to access.
 
-For example, if we now try to list the files which names start with `SR`
+For example, if we now try to list the files which names start with `C1`
 by using tab complete:
 
 ```bash
-$ ls SR<tab>
+$ ls C1<tab>
 ```
 
-The shell auto-completes your command to `SRR09`, because all file names in
+The shell auto-completes your command to `C1_S4_L001_R`, because all file names in
 the directory begin with this prefix. When you hit
 <kbd>Tab</kbd> again, the shell will list the possible choices.
 
 ```bash
-$ ls SRR09<tab><tab>
+$ ls C1_S4_L001_R<tab><tab>
 ```
 
 ```output
-SRR097977.fastq  SRR098026.fastq
+C1_S4_L001_R1_001_downsampled.fastq  C1_S4_L001_R2_001_downsampled.fastq
 ```
 
 Tab completion can also fill in the names of programs, which can be useful if you
@@ -360,7 +344,8 @@ $ pw<tab><tab>
 ```
 
 ```output
-pwck      pwconv    pwd       pwdx      pwunconv
+pwck              pwd               pwhistory_helper  pwscore           
+pwconv            pwdx              pwmake            pwunconv
 ```
 
 Displays the name of every program that starts with `pw`.
