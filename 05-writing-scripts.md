@@ -43,15 +43,15 @@ window.onload = set_page_view_defaults;
 
 We've been able to do a lot of work with files that already exist, but what if we want to write our own files? We're not going to type in a FASTA file, but we'll see as we go through other tutorials, there are a lot of reasons we'll want to write a file, or edit an existing file.
 
-To add text to files, we're going to use a text editor called Nano. We're going to create a file to take notes about what we've been doing with the data files in `~/shell_data/untrimmed_fastq`.
+To add text to files, we're going to use a text editor called Nano. We're going to create a file to take notes about what we've been doing with the data files in `~/itcga_workshop/untrimmed_fastq`.
 
 This is good practice when working in bioinformatics. We can create a file called `README.txt` that describes the data files in the directory or documents how the files in that directory were generated.  As the name suggests, it's a file that we or others should read to understand the information in that directory.
 
-Let's change our working directory to `~/shell_data/untrimmed_fastq` using `cd`,
+Let's change our working directory to `~/itcga_workshop/untrimmed_fastq` using `cd`,
 then run `nano` to create a file called `README.txt`:
 
 ```bash
-$ cd ~/shell_data/untrimmed_fastq
+$ cd ~/itcga_workshop/untrimmed_fastq
 $ nano README.txt
 ```
 
@@ -150,10 +150,10 @@ We're going to create a new file to put this command in. We'll call it `bad-read
 $ nano bad-reads-script.sh
 ```
 
-Bad reads have a lot of N's, so we're going to look for  `NNNNNNNNNN` with `grep`. We want the whole FASTQ record, so we're also going to get the one line above the sequence and the two lines below. We also want to look in all the files that end with `.fastq`, so we're going to use the `*` wildcard.
+Bad reads have a lot of N's, so we're going to look for  `NNNNNNN` with `grep`. We want the whole FASTQ record, so we're also going to get the one line above the sequence and the two lines below. We also want to look in all the files that end with `.fastq`, so we're going to use the `*` wildcard.
 
 ```bash
-grep -B1 -A2 -h NNNNNNNNNN *.fastq | grep -v '^--' > scripted_bad_reads.txt
+grep -B1 -A2 -h NNNNNNN *.fastq | grep -v '^--' > scripted_bad_reads.txt
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -182,7 +182,7 @@ It will look like nothing happened, but now if you look at `scripted_bad_reads.t
 We want the script to tell us when it's done.
 
 1. Open `bad-reads-script.sh` and add the line `echo "Script finished!"` after the `grep` command and save the file.
-2. Run the updated script.
+2. Submit the updated script with `sbatch`.
 
 :::::::::::::::  solution
 
@@ -197,6 +197,8 @@ Script finished!
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+Note that when we ran the job again, the content of `scripted-bad-reads.txt` was overwritten. It only looks like nothing changed because we ran the same command on the same files!
+
 ## Making the script into a program
 
 We had to type `bash` because we needed to tell the computer what program to use to run this script. Instead, we can turn this script into its own program. We need to tell the computer that this script is a program by making the script file executable. We can do this by changing the file permissions. We talked about permissions in [an earlier episode](03-working-with-files.md).
@@ -208,7 +210,7 @@ $ ls -l bad-reads-script.sh
 ```
 
 ```output
--rw-r--r-- 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh
+-rw-r--r-- 1 brook.moyers brook.moyers  601 Aug  8 00:24 bad-reads-script.sh
 ```
 
 We see that it says `-rw-r--r--`. This shows that the file can be read by any user and written to by the file owner (you). We want to change these permissions so that the file can be executed as a program. We use the command `chmod` like we did earlier when we removed write permissions. Here we are adding (`+`) executable permissions (`+x`).
@@ -224,7 +226,7 @@ $ ls -l bad-reads-script.sh
 ```
 
 ```output
--rwxr-xr-x 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh
+-rwxr-xr-x 1 brook.moyers brook.moyers  601 Aug  8 00:24 bad-reads-script.sh
 ```
 
 Now we see that it says `-rwxr-xr-x`. The `x`'s that are there now tell us we can run it as a program. So, let's try it! We'll need to put `./` at the beginning so the computer knows to look here in this directory for the program.
@@ -235,13 +237,46 @@ $ ./bad-reads-script.sh
 
 The script should run the same way as before, but now we've created our very own computer program!
 
-You will learn more about writing scripts in [a later lesson](https://datacarpentry.org/wrangling-genomics/05-automation).
+You will learn more about writing scripts in [a later lesson](https://btmoyers.github.io/wrangling-transcriptomics/05-automation.html).
+
+## Using a job scheduler
+
+If you were the only person using a computer server, you wouldn't need to worry about using all of the server's resources at once. We, however, are all working on a shared server! When we run a computationally intensive job (a series of commands or a script), we have to be mindful of other users.
+
+Luckily, many shared servers have a feature that makes this easier: a job scheduler! Chimera uses the Slurm scheduler. To use it, we first add some additional information at the top of our shell script and then run the script using the `sbatch` command.
+
+Here is an example of the text you should add to the top of a job script:
+
+```
+#!/bin/bash    # this is standard for bash scripts, regardless of the scheduler
+
+#SBATCH --job-name=badreads # you can give your job a name
+#SBATCH --nodes 1 # the number of processors or tasks
+#SBATCH --cpus-per-task=2
+#SBATCH --account=itcga # our account
+#SBATCH --reservation=ITCGA_TEST_RES # this gives us special access during the workshop
+#SBATCH --time=1:00:00 # the maximum time for the job
+#SBATCH --mem=4gb # the amount of RAM 
+#SBATCH --partition=itcga # the specific server in chimera we are using
+#SBATCH --error=%x-%A_%a.err   # a filename to save error messages into
+#SBATCH --output=%x-%A_%a.out  # a filename to save any printed output into
+```
+
+That's a lot of stuff, right? Each line tells the scheduler to do something specific with your job, which is described briefly after the `#` (comment character). These are only some of the options you can set for a job. For more about slurm job scheduling, try `man sbatch` for job submissions and `man squeue` for job status updates. There are also a lot of useful websites about slurm, including [the official one](https://slurm.schedmd.com/sbatch.html) and [this one from a different remote server at UMass Amherst](https://docs.unity.rc.umass.edu/documentation/jobs/slurm/).
+
+For now, add this text to the top of your bad-reads-script.sh, above the grep command, save it, and submit the job with:
+
+```bash
+$ sbatch bad-reads-script.sh
+```
+
+Notice that it is no longer printing out `Script finished!` Has anything changed in your directory? What happens when you type `ls` now? You should now see two more files, named `badreads-something.err` and `badreads-something.out`. These are our error and output logs that we named with the last lines of the `#SBATCH` options. If everything went well, the error log should be empty, while the output log should contain `Script finished!`.
 
 ## Moving and Downloading Data
 
 So far, we've worked with data that is pre-loaded on the instance in the cloud. Usually, however,
 most analyses begin with moving data onto the instance. Below we'll show you some commands to
-download data onto your instance, or to move data between your computer and the cloud.
+download data onto a remote server, or to move data between your computer and the remote server.
 
 ### Getting data from the cloud
 
@@ -259,11 +294,10 @@ the same behaviour, but they are mostly interchangeable.
 Which one you need to use mostly depends on your operating system, as most computers will
 only have one or the other installed by default.
 
-Let's say you want to download some data from Ensembl. We're going to download a very small
-tab-delimited file that just tells us what data is available on the Ensembl bacteria server.
+Let's say you want to download some metadata from Ensembl (a repository of assembled genomes, including the human genome). We're going to download a small text file that just tells us about the most recent human genome assembly available on the Ensembl server.
 Before we can start our download, we need to know whether we're using `curl` or `wget`.
 
-To see which program you have, type:
+First, open up another terminal window (this one will be looking at your own computer). To see which program you have, type:
 
 ```bash
 $ which curl
@@ -300,38 +334,40 @@ following commands to download the file:
 
 ```bash
 $ cd
-$ wget ftp://ftp.ensemblgenomes.org/pub/release-37/bacteria/species_EnsemblBacteria.txt
+$ wget ftp://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/README
 ```
 
 or
 
 ```bash
 $ cd
-$ curl -O ftp://ftp.ensemblgenomes.org/pub/release-37/bacteria/species_EnsemblBacteria.txt
+$ curl -O ftp://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/README
 ```
 
 Since we wanted to *download* the file rather than just view it, we used `wget` without
-any modifiers. With `curl` however, we had to use the -O flag, which simultaneously tells `curl` to
+any modifiers. With `curl` however, we had to use the -O (capital letter o) flag, which simultaneously tells `curl` to
 download the page instead of showing it to us **and** specifies that it should save the
-file using the same name it had on the server: species\_EnsemblBacteria.txt
+file using the same name it had on the server: README
+
+Once you've downloaded it, you can use `less` to read more about the genome data that is available. We will be using this version of the human genome in [a later lesson](https://btmoyers.github.io/wrangling-transcriptomics/04-variant_calling.html). You can also move the file anywhere you'd like using `mv` (it will download to whatever your current working directory is unless you specify otherwise, and you can use `pwd` to check where that is).
 
 It's important to note that both `curl` and `wget` download to the computer that the
-command line belongs to. So, if you are logged into AWS on the command line and execute
-the `curl` command above in the AWS terminal, the file will be downloaded to your AWS
-machine, not your local one.
+command line belongs to. So, if you are logged into a remote server on the command line and execute
+the `curl` command above in the terminal, the file will be downloaded to the remote
+machine, not your local one. In our case, chimera is protected from ftp access, so you will not be able to successfully run these commands there.
 
 ### Moving files between your laptop and your instance
 
-What if the data you need is on your local computer, but you need to get it *into* the
-cloud? There are also several ways to do this, but it's *always* easier
+What if the data you need is on your local computer (like this README file), but you need to get it *into* the
+cloud or a remote server? There are also several ways to do this, but it's *always* easier
 to start the transfer locally. **This means if you're typing into a terminal, the terminal
-should not be logged into your instance, it should be showing your local computer. If you're
-using a transfer program, it needs to be installed on your local machine, not your instance.**
+should not be logged into the remote server, it should be showing your local computer. If you're
+using a transfer program, it needs to be installed on your local machine, not your remote server.**
 
 ## Transferring Data Between your Local Machine and the Cloud
 
 If you're using Linux, Mac OS, or Windows with Git Bash on your local machine, you can use
-`scp` to upload data to your virtual machine.
+`scp` to upload data to your remote machine.
 
 ::::::::::::::: spoiler
 
@@ -346,29 +382,31 @@ scp <file I want to move> <where I want to move it>
 ```
 
 Note that you are always running `scp` locally, but that *doesn't* mean that
-you can only move files from your local computer. In order to move a file from your local computer to an AWS instance, the command would look like this:
+you can only move files from your local computer. In order to move a file from your local computer to an remote server, the command would look like this:
 
 ```bash
-$ scp <local file> <AWS instance>
+$ scp <local file> <remote server>
 ```
 
 To move it back to your local computer, you re-order the `to` and `from` fields:
 
 ```bash
-$ scp <AWS instance> <local file>
+$ scp <remote server> <local file>
 ```
 
-#### Uploading Data to your Virtual Machine with scp
+#### Uploading data to a remote server with scp
 
 Open the terminal and use the `scp` command to upload a file (e.g. local\_file.txt) to the dcuser home directory:
 
 ```bash
-$  scp local_file.txt dcuser@ip.address:/home/dcuser/
+$  scp README your.UMB.username@chimera.umb.edu:/home/your.UMB.username/
 ```
+
+and enter your UMB password when prompted.
 
 #### Downloading Data from your Virtual Machine with scp
 
-Let's download a text file from our remote machine. You should have a file that contains bad reads called ~/shell\_data/scripted\_bad\_reads.txt.
+Let's download a text file from our remote machine. You should have a file that contains bad reads called `~itcga_workshop/untrimmed_fastq/scripted_bad_reads.txt`.
 
 **Tip:** If you are looking for another (or any really) text file in your home directory to use instead, try:
 
@@ -376,18 +414,18 @@ Let's download a text file from our remote machine. You should have a file that 
 $ find ~ -name *.txt
 ```
 
-Download the bad reads file in ~/shell\_data/scripted\_bad\_reads.txt to your home ~/Download directory using the following command **(make sure you substitute [dcuser@ip.address](mailto:dcuser@ip.address) with your remote login credentials)**:
+Download the bad reads file in `~itcga_workshop/untrimmed_fastq/scripted_bad_reads.txt` to your local home ~/Download directory using the following command **(make sure you substitute your.UMB.username@chimera.umb.edu with your login credentials)**:
 
 ```bash
-$ scp dcuser@ip.address:/home/dcuser/shell_data/untrimmed_fastq/scripted_bad_reads.txt ~/Downloads
+$ scp your.UMB.username@chimera.umb.edu:~/itcga_workshop/untrimmed_fastq/scripted_bad_reads.txt ~/Downloads
 ```
 
-Remember that in both instances, the command is run from your local machine, we've just flipped the order of the to and from parts of the command.
+Remember that in both cases, the command is run from your local machine, we've just flipped the order of the to and from parts of the command.
 
 :::::::::::::::::::::::
 
 If you are using Windows without Git Bash on your local machine, you can use `pscp.exe`
-to upload data to your virtual machine.
+to upload data to a remote machine.
 
 ::::::::::::::: spoiler
 
@@ -408,19 +446,19 @@ This program is from the same suite of tools as the PuTTY program we have been u
 > cd Downloads
 ```
 
-5. Locate a file on your computer that you wish to upload (be sure you know the path). Then upload it to your remote machine **(you will need to know your AMI instance address (which starts with ec2), and login credentials)**. You will be prompted to enter a password, and then your upload will begin. **(make sure you substitute 'your-pc-username' for your actual pc username and 'ec2-54-88-126-85.compute-1.amazonaws.com' with your AMI instance address)**
+5. Locate a file on your computer that you wish to upload (be sure you know the path). Then upload it to your remote machine **(you will need to know your local computer's login credentials)**. You will be prompted to enter a password, and then your upload will begin. **(make sure you substitute 'your.UMB.username' for your actual username)**
 
 ```bash
-C:\User\your-pc-username\Downloads> pscp.exe local_file.txt dcuser@ec2-54-88-126-85.compute-1.amazonaws.com:/home/dcuser/
+C:\User\your-pc-username\Downloads> pscp.exe local_file.txt your.UMB.username@chimera.umb.edu:~
 ```
 
-### Downloading Data from your Virtual Machine with PSCP
+### Downloading Data from a remote computer with PSCP
 
 1. Follow the instructions in the Upload section to download (if needed) and access the *PSCP* program (steps 1-3)
-2. Download the text file to your current working directory (represented by a .) using the following command **(make sure you substitute 'your-pc-username' for your actual pc username and 'ec2-54-88-126-85.compute-1.amazonaws.com' with your AMI instance address)**
+2. Download the text file to your current working directory (represented by a .) using the following command:
 
 ```bash
-C:\User\your-pc-username\Downloads> pscp.exe dcuser@ec2-54-88-126-85.compute-1.amazonaws.com:/home/dcuser/shell_data/untrimmed_fastq/scripted_bad_reads.txt .
+C:\User\your-pc-username\Downloads> pscp.exe your.UMB.username@chimera.umb.edu:~/itcga_workshop/untrimmed_fastq/scripted_bad_reads.txt .
 
 C:\User\your-pc-username\Downloads
 ```
