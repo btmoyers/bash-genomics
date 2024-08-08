@@ -254,7 +254,7 @@ Here is an example of the text you should add to the top of a job script:
 #SBATCH --nodes 1 # the number of processors or tasks
 #SBATCH --cpus-per-task=2
 #SBATCH --account=itcga # our account
-#SBATCH --reservation=ITCGA_TEST_RES # this gives us special access during the workshop
+#SBATCH --reservation=ITCGA_AUG2024 # this gives us special access during the workshop
 #SBATCH --time=1:00:00 # the maximum time for the job
 #SBATCH --mem=4gb # the amount of RAM 
 #SBATCH --partition=itcga # the specific server in chimera we are using
