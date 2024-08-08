@@ -334,14 +334,14 @@ following commands to download the file:
 
 ```bash
 $ cd
-$ wget ftp://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/README
+$ wget https://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/README
 ```
 
 or
 
 ```bash
 $ cd
-$ curl -O ftp://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/README
+$ curl -O https://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/README
 ```
 
 Since we wanted to *download* the file rather than just view it, we used `wget` without
@@ -354,7 +354,7 @@ Once you've downloaded it, you can use `less` to read more about the genome data
 It's important to note that both `curl` and `wget` download to the computer that the
 command line belongs to. So, if you are logged into a remote server on the command line and execute
 the `curl` command above in the terminal, the file will be downloaded to the remote
-machine, not your local one. In our case, chimera is protected from ftp access, so you will not be able to successfully run these commands there.
+machine, not your local one.
 
 ### Moving files between your laptop and your instance
 
