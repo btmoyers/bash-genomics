@@ -68,7 +68,7 @@ $ pwd
 You should see the output:
 
 ```output
-/home/dcuser  
+/home/your.UMB.username  
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -86,20 +86,20 @@ always returns you to home.
 
 Use the `mkdir` command to make the following directories:
 
-- `dc_workshop`
-- `dc_workshop/docs`
-- `dc_workshop/data`
-- `dc_workshop/results`
+- `1_project`
+- `1_project/docs`
+- `1_project/data`
+- `1_project/results`
 
 :::::::::::::::  solution
 
 ### Solution
 
 ```bash
-$ mkdir dc_workshop
-$ mkdir dc_workshop/docs
-$ mkdir dc_workshop/data
-$ mkdir dc_workshop/results
+$ mkdir 1_project
+$ mkdir 1_project/docs
+$ mkdir 1_project/data
+$ mkdir 1_project/results
 ```
 
 :::::::::::::::::::::::::
@@ -111,20 +111,20 @@ Use `ls -R` to verify that you have created these directories. The `-R` option f
 iteratively.
 
 ```bash
-$ ls -R dc_workshop
+$ ls -R 1_project
 ```
 
 You should see the following output:
 
 ```output
-dc_workshop/:
+1_project/:
 data  docs  results
 
-dc_workshop/data:
+1_project/data:
 
-dc_workshop/docs:
+1_project/docs:
 
-dc_workshop/results: 
+1_project/results: 
 ```
 
 ## Organizing your files
@@ -139,7 +139,7 @@ your data that you never modify guarantees that you will always be
 able to start over if something goes wrong with your analysis. When
 starting any analysis, you can make a copy of your raw data file and
 do your manipulations on that file, rather than the raw version. We
-learned in [a previous episode](https://datacarpentry.org/shell-genomics/03-working-with-files#file-permissions) how to prevent overwriting our raw data
+learned in [a previous episode](03-working-with-files.md) how to prevent overwriting our raw data
 files by setting restrictive file permissions.
 
 You can store any results that are generated from your analysis in
@@ -185,15 +185,15 @@ $ history | tail -n 7
 ### Exercise
 
 Using your knowledge of the shell, use the append redirect `>>` to create a file called
-`dc_workshop_log_XXXX_XX_XX.sh` (Use the four-digit year, two-digit month, and two digit day, e.g.
-`dc_workshop_log_2017_10_27.sh`)
+`1_project_log_XXXX_XX_XX.sh` (Use the four-digit year, two-digit month, and two digit day, e.g.
+`1_project_log_2024_08_15.sh`)
 
 :::::::::::::::  solution
 
 ### Solution
 
 ```bash
-$ history | tail -n 7 >> dc_workshop_log_2017_10_27.sh
+$ history | tail -n 7 >> 1_project_log_2024_08_15.sh
 ```
 
 Note we used the last 7 lines as an example, the number of lines may vary.
@@ -206,10 +206,10 @@ You may have noticed that your history contains the `history` command itself. To
 from our log, let's use the `nano` text editor to fix the file:
 
 ```bash
-$ nano dc_workshop_log_2017_10_27.sh
+$ nano 1_project_log_2024_08_15.sh
 ```
 
-(Remember to replace the `2017_10_27` with your workshop date.)
+(Remember to replace the `2024_08_15` with today's date if different.)
 
 From the `nano` screen, you can use your cursor to navigate, type, and delete any redundant lines.
 
@@ -236,8 +236,8 @@ Add a date line and comment to the line where you have created the directory. Re
 text on a line after a `#` is ignored by bash when evaluating the text as code. For example:
 
 ```bash
-# 2017_10_27   
-# Created sample directories for the Data Carpentry workshop  
+# 2024_08_15  
+# Created sample directories for the iTCGA workshop group project 
 ```
 
 Next, remove any lines of the history that are not relevant by navigating to those lines and using your
@@ -246,41 +246,41 @@ delete key. Save your file and close `nano`.
 Your file should look something like this:
 
 ```output
-# 2017_10_27
-# Created sample directories for the Data Carpentry workshop
+# 2024_08_15
+# Created sample directories for the iTCGA workshop group project 
 
-mkdir dc_workshop
-mkdir dc_workshop/docs
-mkdir dc_workshop/data
-mkdir dc_workshop/results
+mkdir 1_project
+mkdir 1_project/docs
+mkdir 1_project/data
+mkdir 1_project/results
 ```
 
 If you keep this file up to date, you can use it to re-do your work on your project if something happens to your results files. To demonstrate how this works, first delete
-your `dc_workshop` directory and all of its subdirectories. Look at your directory
+your `1_project` directory and all of its subdirectories. Look at your directory
 contents to verify the directory is gone.
 
 ```bash
-$ rm -r dc_workshop
+$ rm -r 1_project
 $ ls
 ```
 
 ```output
-shell_data	dc_workshop_log_2017_10_27.sh
+1_project_log_2024_08_15.sh  bin  itcga_workshop
 ```
 
-Then run your workshop log file as a bash script. You should see the `dc_workshop`
+Then run your workshop log file as a bash script. You should see the `1_project`
 directory and all of its subdirectories reappear.
 
 ```bash
-$ bash dc_workshop_log_2017_10_27.sh
+$ bash 1_project_log_2024_08_15.sh
 $ ls
 ```
 
 ```output
-shell_data	dc_workshop dc_workshop_log_2017_10_27.sh
+1_project 1_project_log_2024_08_15.sh bin  itcga_workshop
 ```
 
-It's important that we keep our workshop log file outside of our `dc_workshop` directory
+It's important that we keep our workshop log file outside of our `1_project` directory
 if we want to use it to recreate our work. It's also important for us to keep it up to
 date by regularly updating with the commands that we used to generate our results files.
 
