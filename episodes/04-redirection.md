@@ -50,7 +50,7 @@ directory:
 $ cd ~/itcga_workshop/untrimmed_fastq
 ```
 
-Suppose we want to see how many reads in our file have really bad segments containing 10 consecutive unknown nucleotides (Ns).
+Suppose we want to see how many reads in our file have really bad segments containing seven consecutive unknown nucleotides (Ns).
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
