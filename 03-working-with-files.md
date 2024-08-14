@@ -578,6 +578,8 @@ By default, `rm` will not delete directories. You can tell `rm` to
 delete a directory using the `-r` (recursive) option. Let's delete the backup directory
 we just made.
 
+BEFORE YOU DO THIS: the recursive option is very powerful! Make sure to check that the directory contains what you think it does, and double-check that you are `rm -r` the correct directory. Remember, once it is removed it is gone.
+
 Enter the following command:
 
 ```bash
