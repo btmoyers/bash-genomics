@@ -21,23 +21,12 @@ exercises: 15
 
 ## Getting your project started
 
-Project organization is one of the most important parts of a sequencing project, and yet is often overlooked amidst the
-excitement of getting a first look at new data. Of course, while it's best to get yourself organized before you even begin your analyses,
-it's never too late to start, either.
+Project organization is one of the most important parts of a sequencing project, and yet is often overlooked amidst the excitement of getting a first look at new data. Of course, while it's best to get yourself organized before you even begin your analyses, it's never too late to start, either.
 
-You should approach your sequencing project similarly to how you do a biological experiment and this ideally begins with experimental design. We're going to assume that you've already designed a beautiful
-sequencing experiment to address your biological question, collected appropriate samples, and that you have
-enough statistical power to answer the questions you're interested in asking. These
-steps are all incredibly important, but beyond the scope of our course.
-For all of those steps (collecting specimens, extracting DNA, prepping your samples)
-you've likely kept a lab notebook that details how and why you did each step. However, the process of documentation doesn't stop at
-the sequencer!
+You should approach your sequencing project similarly to how you do a biological experiment and this ideally begins with experimental design. We're going to assume that you've already designed a beautiful sequencing experiment to address your biological question, collected appropriate samples, and that you have enough statistical power to answer the questions you're interested in asking. These steps are all incredibly important, but beyond the scope of our course.
+For all of those steps (collecting specimens, extracting DNA, prepping your samples) you've likely kept a lab notebook that details how and why you did each step. However, the process of documentation doesn't stop at the sequencer!
 
-Genomics projects can quickly accumulate hundreds of files across
-tens of folders. Every computational analysis you perform over the course of your project is going to create
-many files, which can especially become a problem when you'll inevitably want to run some of those
-analyses again. For instance, you might have made significant headway into your project, but then have to remember the PCR conditions
-you used to create your sequencing library months prior.
+Genomics projects can quickly accumulate hundreds of files across tens of folders. Every computational analysis you perform over the course of your project is going to create many files, which can especially become a problem when you'll inevitably want to run some of those analyses again. For instance, you might have made significant headway into your project, but then have to remember the PCR conditions you used to create your sequencing library months prior.
 
 Other questions might arise along the way:
 
@@ -46,17 +35,11 @@ Other questions might arise along the way:
 - Which quality cutoff did you use?
 - What version of a given program did you implement your analysis in?
 
-Good documentation is key to avoiding this issue, and luckily enough,
-recording your computational experiments is even easier than recording lab data. Copy/Paste will become
-your best friend, sensible file names will make your analysis understandable by you and your collaborators, and
-writing the methods section for your next paper will be easy! Remember that in any given project of yours, it's worthwhile to consider
-a future version of yourself as an entirely separate collaborator. The better your documenation is, the more this 'collaborator' will
-feel indebted to you!
+Good documentation is key to avoiding this issue, and luckily enough, recording your computational experiments is even easier than recording lab data. Copy/Paste will become your best friend, sensible file names will make your analysis understandable by you and your collaborators, and writing the methods section for your next paper will be easy! Remember that in any given project of yours, it's worthwhile to consider a future version of yourself as an entirely separate collaborator. The better your documenation is, the more this 'collaborator' will feel indebted to you!
 
-With this in mind, let's have a look at the best practices for
-documenting your genomics project. Your future self will thank you.
+With this in mind, let's have a look at the best practices for documenting your genomics project. Your future self will thank you.
 
-In this exercise we will setup a file system for the project we will be working on during this workshop.
+In this exercise we will setup a file system for the project we will be working on during this module of the workshop.
 
 We will start by creating a directory that we can use for the rest of the workshop. First navigate to your home directory. Then confirm that you are in the correct directory using the `pwd` command.
 
@@ -68,7 +51,7 @@ $ pwd
 You should see the output:
 
 ```output
-/home/your.UMB.username  
+/itcgastorage/share_home/your.UMB.username  
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -88,6 +71,7 @@ Use the `mkdir` command to make the following directories:
 
 - `1_project`
 - `1_project/docs`
+- `1_project/scripts`
 - `1_project/data`
 - `1_project/results`
 
@@ -98,6 +82,7 @@ Use the `mkdir` command to make the following directories:
 ```bash
 $ mkdir 1_project
 $ mkdir 1_project/docs
+$ mkdir 1_project/scripts
 $ mkdir 1_project/data
 $ mkdir 1_project/results
 ```
@@ -106,9 +91,7 @@ $ mkdir 1_project/results
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Use `ls -R` to verify that you have created these directories. The `-R` option for `ls` stands for recursive. This option causes
-`ls` to return the contents of each subdirectory within the directory
-iteratively.
+Use `ls -R` to verify that you have created these directories. The `-R` option for `ls` stands for recursive. This option causes `ls` to return the contents of each subdirectory within the directory iteratively.
 
 ```bash
 $ ls -R 1_project
@@ -118,37 +101,26 @@ You should see the following output:
 
 ```output
 1_project/:
-data  docs  results
+data  docs  results scripts
 
 1_project/data:
 
 1_project/docs:
 
 1_project/results: 
+
+1_project/scripts: 
 ```
 
 ## Organizing your files
 
-Before beginning any analysis, it's important to save a copy of your
-raw data. The raw data should never be changed. Regardless of how
-sure you are that you want to carry out a particular data cleaning
-step, there's always the chance that you'll change your mind later
-or that there will be an error in carrying out the data cleaning and
-you'll need to go back a step in the process. Having a raw copy of
-your data that you never modify guarantees that you will always be
-able to start over if something goes wrong with your analysis. When
-starting any analysis, you can make a copy of your raw data file and
-do your manipulations on that file, rather than the raw version. We
-learned in [a previous episode](03-working-with-files.md) how to prevent overwriting our raw data
-files by setting restrictive file permissions.
+Before beginning any analysis, it's important to save a copy of your raw data. The raw data should never be changed. Regardless of how sure you are that you want to carry out a particular data cleaning step, there's always the chance that you'll change your mind later or that there will be an error in carrying out the data cleaning and you'll need to go back a step in the process. Having a raw copy of your data that you never modify guarantees that you will always be able to start over if something goes wrong with your analysis. When starting any analysis, you can make a copy of your raw data file and do your manipulations on that file, rather than the raw version. We learned in [a previous episode](03-working-with-files.md) how to prevent overwriting our raw data files by setting restrictive file permissions.
 
-You can store any results that are generated from your analysis in
-the `results` folder. This guarantees that you won't confuse results
-file and data files in six months or two years when you are looking
-back through your files in preparation for publishing your study.
+The `scripts` folder will hold your scripts, which are themselves a record of what you have done to analyze your data.
 
-The `docs` folder is the place to store any written analysis of your
-results, notes about how your analyses were carried out, and
+You can store any results that are generated from your analysis in the `results` folder. This guarantees that you won't confuse results file and data files in six months or two years when you are looking back through your files in preparation for publishing your study.
+
+The `docs` folder is the place to store any written analysis of your results, notes about how your analyses were carried out, and
 documents related to your eventual publication.
 
 ## Documenting your activity on the project
@@ -193,10 +165,10 @@ Using your knowledge of the shell, use the append redirect `>>` to create a file
 ### Solution
 
 ```bash
-$ history | tail -n 7 >> 1_project_log_2024_08_15.sh
+$ history | tail -n 8 >> 1_project_log_2024_08_15.sh
 ```
 
-Note we used the last 7 lines as an example, the number of lines may vary.
+Note we used the last 8 lines as an example, the number of lines may vary.
 
 :::::::::::::::::::::::::
 
@@ -251,13 +223,14 @@ Your file should look something like this:
 
 mkdir 1_project
 mkdir 1_project/docs
+mkdir 1_project/scripts
 mkdir 1_project/data
 mkdir 1_project/results
 ```
 
-If you keep this file up to date, you can use it to re-do your work on your project if something happens to your results files. To demonstrate how this works, first delete
-your `1_project` directory and all of its subdirectories. Look at your directory
-contents to verify the directory is gone.
+If you keep this file up to date, you can use it to re-do your work on your project if something happens to your results files. To demonstrate how this works, first delete your `1_project` directory and all of its subdirectories. Look at your directory contents to verify the directory is gone.
+
+**Remember that `rm -r` is very powerful and use it with caution**
 
 ```bash
 $ rm -r 1_project
@@ -265,7 +238,7 @@ $ ls
 ```
 
 ```output
-1_project_log_2024_08_15.sh  bin  itcga_workshop
+1_project_log_2024_08_15.sh  itcga_workshop
 ```
 
 Then run your workshop log file as a bash script. You should see the `1_project`
@@ -277,14 +250,14 @@ $ ls
 ```
 
 ```output
-1_project 1_project_log_2024_08_15.sh bin  itcga_workshop
+1_project 1_project_log_2024_08_15.sh  itcga_workshop
 ```
 
 It's important that we keep our workshop log file outside of our `1_project` directory
 if we want to use it to recreate our work. It's also important for us to keep it up to
 date by regularly updating with the commands that we used to generate our results files.
 
-For now, you can try copying the FASTQ files in your `untrimmed_fastq` directory to a new directory inside of `1_project/data`, as we'll work with these data again for our next steps.
+For now, you can try copying the FASTQ files in your `untrimmed_fastq` directory to a new directory inside of `1_project/data`, as we'll work with these data again for our next steps. This can be your working version of the data (while leaving the other ones as your "raw" data).
 
 Congratulations! You've finished your introduction to using the shell for genomics
 projects. You now know how to navigate your file system, create, copy, move,
