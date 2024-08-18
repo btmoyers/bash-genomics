@@ -257,7 +257,7 @@ It's important that we keep our workshop log file outside of our `1_project` dir
 if we want to use it to recreate our work. It's also important for us to keep it up to
 date by regularly updating with the commands that we used to generate our results files.
 
-For now, you can try copying the FASTQ files in your `untrimmed_fastq` directory to a new directory inside of `1_project/data`, as we'll work with these data again for our next steps.
+For now, you can try copying the FASTQ files in your `untrimmed_fastq` directory to a new directory inside of `1_project/data`, as we'll work with these data again for our next steps. This can be your working version of the data (while leaving the other ones as your "raw" data).
 
 Congratulations! You've finished your introduction to using the shell for genomics
 projects. You now know how to navigate your file system, create, copy, move,
