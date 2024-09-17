@@ -429,8 +429,7 @@ Quality encoding: !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJK
 Quality score:    0........10........20........30........40..                          
 ```
 
-Each quality score represents the probability that the corresponding nucleotide call is
-incorrect. This quality score is logarithmically based, so a quality score of 10 reflects a
+Each quality score represents the probability that the corresponding nucleotide call is correct or incorrect. This quality score is logarithmically based, so a quality score of 10 reflects a
 base call accuracy of 90%, but a quality score of 20 reflects a base call accuracy of 99%.
 These probability values are the results from the base calling algorithm and dependent on how
 much signal was captured for the base incorporation.
