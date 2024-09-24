@@ -359,7 +359,7 @@ doesn't require us to create these intermediate files - the pipe command (`|`).
 This is probably not a key on
 your keyboard you use very much, so let's all take a minute to find that key.
 In the UK and US keyboard layouts, and several others,
-the `|` character can be found using the key combination <kbd>Shift</kbd>\+<kbd>\</kbd>.
+the `|` character can be found using the key combination <kbd>Shift</kbd>\+<kbd>\\</kbd>.
 This may be different for other language-specific layouts.
 
 What `|` does is take the output that is scrolling by on the terminal and uses that output as input to another command.
