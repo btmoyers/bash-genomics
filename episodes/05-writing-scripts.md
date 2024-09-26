@@ -150,7 +150,7 @@ We're going to create a new file to put this command in. We'll call it `bad-read
 $ nano bad-reads-script.sh
 ```
 
-Bad reads have a lot of N's, so we're going to look for  `NNNNNNN` with `grep`. We want the whole FASTQ record, so we're also going to get the one line above the sequence and the two lines below. We also want to look in all the files that end with `.fastq`, so we're going to use the `*` wildcard.
+Bad reads have a lot of N's, so we're going to look for `NNNNNNN` (7 Ns) with `grep`. We want the whole FASTQ record, so we're also going to get the one line above the sequence and the two lines below. We also want to look in all the files that end with `.fastq`, so we're going to use the `*` wildcard.
 
 ```bash
 grep -B1 -A2 -h NNNNNNN *.fastq | grep -v '^--' > scripted_bad_reads.txt
@@ -165,7 +165,9 @@ are using `-h` to "Suppress the prefixing of file names on output" according to 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Type your `grep` command into the file and save it as before. Be careful that you did not add the `$` at the beginning of the line.
+On the first line of the file, type `#!/bin/bash`. This is common to all bash scripts and tells the computer to use bash when interpreting your commands.
+
+Next type your `grep` command into the file and save it as before. Be careful that you did not add the `$` at the beginning of the line.
 
 Now comes the neat part. We can run this script. Type:
 
@@ -248,13 +250,12 @@ Luckily, many shared servers have a feature that makes this easier: a job schedu
 Here is an example of the text you should add to the top of a job script:
 
 ```
-#!/bin/bash    # this is standard for bash scripts, regardless of the scheduler
+#!/bin/bash
 
 #SBATCH --job-name=badreads # you can give your job a name
 #SBATCH --nodes 1 # the number of processors or tasks
 #SBATCH --cpus-per-task=2
 #SBATCH --account=itcga # our account
-#SBATCH --reservation=ITCGA_AUG2024 # this gives us special access during the workshop
 #SBATCH --time=1:00:00 # the maximum time for the job
 #SBATCH --mem=4gb # the amount of RAM 
 #SBATCH --partition=itcga # the specific server in chimera we are using
