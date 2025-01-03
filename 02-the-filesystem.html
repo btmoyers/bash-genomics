@@ -217,6 +217,7 @@
       <div class="accordion-body">
         <ul><li><a href="#moving-around-the-file-system">Moving around the file system</a></li>
 <li><a href="#examining-the-contents-of-other-directories">Examining the contents of other directories</a></li>
+<li><a href="#seeing-the-whole-tree">Seeing the whole tree</a></li>
 <li><a href="#full-vs.-relative-paths">Full vs. Relative Paths</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -318,7 +319,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Navigating Files and Directories</h1>
-        <p>Last updated on 2024-08-07 |
+        <p>Last updated on 2025-01-03 |
 
         <a href="https://github.com/datacarpentry/shell-genomics/edit/main/episodes/02-the-filesystem.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -574,6 +575,17 @@ T1_S7_L001_R1_001_downsampled.fastq  V1_S1_L001_R2_001_downsampled.fastq</code><
 </div>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="seeing-the-whole-tree">Seeing the whole tree<a class="anchor" aria-label="anchor" href="#seeing-the-whole-tree"></a></h2>
+<hr class="half-width"><p>The <code>tree</code> command prints out the nested directories and
+files contained within your current working directory in a nice visual
+way. Some folks find this useful for visualizing the file system as a
+tree! Try it now from your home directory:</p>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="ex">$</span> cd  <span class="co"># this will move you to your home if you are not already there</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="ex">$</span> tree</span></code></pre>
+</div>
 </section><section><h2 class="section-heading" id="full-vs--relative-paths">Full vs. Relative Paths<a class="anchor" aria-label="anchor" href="#full-vs--relative-paths"></a></h2>
 <hr class="half-width"><p>The <code>cd</code> command takes an argument which is a directory
 name. Directories can be specified using either a <em>relative</em> path
@@ -581,11 +593,11 @@ or a full <em>absolute</em> path. The directories on the computer are
 arranged into a hierarchy. The full path tells you where a directory is
 in that hierarchy. Navigate to the home directory, then enter the
 <code>pwd</code> command.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="ex">$</span> cd  </span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="ex">$</span> pwd  </span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="ex">$</span> cd  </span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="ex">$</span> pwd  </span></code></pre>
 </div>
 <p>You will see:</p>
 <div class="codewrapper">
@@ -603,24 +615,24 @@ directory called <code>/</code> which is usually referred to as the
 is a directory in <code>/</code>. More on <code>root</code> and
 <code>home</code> in the next section.</p>
 <p>Now enter the following command:</p>
-<div class="codewrapper sourceCode" id="cb25">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="ex">$</span> cd /home/your.UMB.username/itcga_workshop/.shh_hidden</span></code></pre>
-</div>
-<p>This jumps forward multiple levels to the <code>.shh_hidden</code>
-directory. Now go back to the home directory.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> cd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> cd /home/your.UMB.username/itcga_workshop/.shh_hidden</span></code></pre>
 </div>
-<p>You can also navigate to the <code>.shh_hidden</code> directory
-using:</p>
+<p>This jumps forward multiple levels to the <code>.shh_hidden</code>
+directory. Now go back to the home directory.</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="ex">$</span> cd itcga_workshop/.shh_hidden</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="ex">$</span> cd</span></code></pre>
+</div>
+<p>You can also navigate to the <code>.shh_hidden</code> directory
+using:</p>
+<div class="codewrapper sourceCode" id="cb28">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="ex">$</span> cd itcga_workshop/.shh_hidden</span></code></pre>
 </div>
 <p>These two commands have the same effect, they both take us to the
 <code>.shh_hidden</code> directory. The first uses the absolute path,
@@ -697,17 +709,17 @@ to avoid them and work within your home directory. Dealing with the
 will take you to <code>/home/your.UMB.username</code> and
 <code>cd /</code> will take you to <code>/</code>. Navigate to the
 <code>itcga_workshop</code> directory:</p>
-<div class="codewrapper sourceCode" id="cb28">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="ex">$</span> cd</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="ex">$</span> cd itcga_workshop</span></code></pre>
-</div>
-<p>Then enter the command:</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="ex">$</span> ls ~</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="ex">$</span> cd</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="ex">$</span> cd itcga_workshop</span></code></pre>
+</div>
+<p>Then enter the command:</p>
+<div class="codewrapper sourceCode" id="cb30">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="ex">$</span> ls ~</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -796,8 +808,8 @@ file system.</li>
   "url": "https://datacarpentry.github.io/shell-genomics/02-the-filesystem.html",
   "identifier": "https://datacarpentry.github.io/shell-genomics/02-the-filesystem.html",
   "dateCreated": "2015-03-24",
-  "dateModified": "2024-08-07",
-  "datePublished": "2024-12-31"
+  "dateModified": "2025-01-03",
+  "datePublished": "2025-01-03"
 }
 
   </script><script>
