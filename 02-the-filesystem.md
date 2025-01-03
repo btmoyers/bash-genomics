@@ -211,6 +211,15 @@ T1_S7_L001_R1_001_downsampled.fastq  V1_S1_L001_R2_001_downsampled.fastq
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Seeing the whole tree
+
+The `tree` command prints out the nested directories and files contained within your current working directory in a nice visual way. Some folks find this useful for visualizing the file system as a tree! Try it now from your home directory:
+
+```bash
+$ cd  # this will move you to your home if you are not already there
+$ tree
+```
+
 ## Full vs. Relative Paths
 
 The `cd` command takes an argument which is a directory
