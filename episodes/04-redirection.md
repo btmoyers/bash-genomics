@@ -80,8 +80,8 @@ in a FASTQ file. We may also want to inspect the quality scores associated with
 each of these reads. To get all of this information, we will return the line
 immediately before each match and the two lines immediately after each match.
 
-We can use the `-B` argument for grep to return a specific number of lines before
-each match. The `-A` argument returns a specific number of lines after each matching line. Here we want the line *before* and the two lines *after* each
+We can use the `-B` flag for grep to return a specific number of lines before
+each match. The `-A` flag returns a specific number of lines after each matching line. Here we want the line *before* and the two lines *after* each
 matching line, so we add `-B1 -A2` to our grep command:
 
 ```bash
