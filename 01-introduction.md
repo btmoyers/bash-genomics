@@ -1,6 +1,6 @@
 ---
 title: Introducing the Shell
-teaching: 20
+teaching: 30
 exercises: 10
 ---
 
@@ -75,12 +75,14 @@ The press the `Enter` key. If it asks you to confirm the server identity or ssh 
 
 You can learn more about [research computing at UMass Boston here](https://www.umb.edu/rc/hpc/). Note that you either need to be on a campus internet network or [using a VPN](https://umassboston.service-now.com/sp?id=kb_article_view&sysparm_article=KB0010685&sys_kb_id=bde423a21be0e51078b5a6ca234bcbcc&spa=1) to connect with chimera.
 
-After logging in, you will see a screen showing something like this:
+After logging in, you should see something like this (but with different dates and your username):
 
 ```output
 Activate the web console with: systemctl enable --now cockpit.socket
 
 Last login: Wed Aug  7 00:40:39 2024 from 10.23.0.78
+
+[brook.moyers@chimerahead ~]$
 ```
 
 This provides some information about the remote server that you're logging into. We're not going to use most of this information for
@@ -159,7 +161,7 @@ i.e.,
 the directory that the computer assumes we want to run commands in,
 unless we explicitly specify something else.
 Here,
-the computer's response is `/home/your.UMB.username`,
+the computer's response is `/itcgastorage/share_home/your.UMB.username`,
 which is your personal home folder on the chimera server:
 
 ```bash
@@ -167,7 +169,7 @@ $ pwd
 ```
 
 ```output
-/home/your.UMB.username
+/itcgastorage/share_home/your.UMB.username
 ```
 
 Let's look at how our file system is organized. We can see what files and subdirectories are in this directory by running `ls`,
@@ -178,7 +180,7 @@ $ ls
 ```
 
 ```output
-bin  itcga_workshop
+itcga_workshop
 ```
 
 `ls` prints the names of the files and directories in the current directory in
@@ -265,8 +267,7 @@ to read and write to the file.
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 No one can possibly learn all of these arguments, that's what the manual page
-is for. You can (and should) refer to the manual page or other help files
-as needed.
+is for. You can (and should) refer to the manual page or other help files as needed. Or search online when you get stuck!
 
 Let's go into the `untrimmed_fastq` directory and see what is in there.
 

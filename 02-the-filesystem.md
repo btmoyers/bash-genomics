@@ -66,7 +66,7 @@ $ pwd
 ```
 
 ```output
-/home/your.UMB.username/itcga_workshop
+/itcgastorage/share_home/your.UMB.username/itcga_workshop
 ```
 
 ```bash
@@ -85,7 +85,7 @@ You can chain these together like so:
 $ ls ../../
 ```
 
-prints the contents of `/home` (lots of users!).
+prints the contents of `/itcgastorage/share_home/` (other users!).
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -237,21 +237,21 @@ $ pwd
 You will see:
 
 ```output
-/home/your.UMB.username
+/itcgastorage/share_home/your.UMB.username
 ```
 
 This is the full name of your home directory. This tells you that you
 are in a directory called `your.UMB.username`, which sits inside a directory called
-`home` which sits inside the very top directory in the hierarchy. The
+`share_home`, which sits inside a directory called `itcgastorage` which is inside the very top directory in the hierarchy. The
 very top of the hierarchy is a directory called `/` which is usually
 referred to as the *root directory*. So, to summarize: `your.UMB.username` is a
-directory in `home` which is a directory in `/`. More on `root` and
+directory in `share_home` which is a directory in `itcgastorage` which is in `/`. More on `root` and
 `home` in the next section.
 
 Now enter the following command:
 
 ```bash
-$ cd /home/your.UMB.username/itcga_workshop/.shh_hidden
+$ cd /itcgastorage/share_home/your.UMB.username/itcga_workshop/.shh_hidden
 ```
 
 This jumps forward multiple levels to the `.shh_hidden` directory.
@@ -329,9 +329,9 @@ in `root` directories will require special permissions which are
 not discussed here, so it's best to avoid them and work within your
 home directory. Dealing with the `home` directory is very common.
 The tilde character, `~`, is a shortcut for your home directory.
-In our case, the `root` directory is **two** levels above our
+In our case, the `root` directory is **three** levels above our
 `home` directory, so `cd` or `cd ~` will take you to
-`/home/your.UMB.username` and `cd /` will take you to `/`. Navigate to the
+`/itcgastorage/share_home/your.UMB.username` and `cd /` will take you to `/`. Navigate to the
 `itcga_workshop` directory:
 
 ```bash
@@ -346,7 +346,7 @@ $ ls ~
 ```
 
 ```output
-bin  itcga_workshop
+itcga_workshop
 ```
 
 This prints the contents of your home directory, without you needing to

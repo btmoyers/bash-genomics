@@ -400,7 +400,7 @@ $ scp <remote server> <local file>
 Open the terminal and use the `scp` command to upload a file (e.g. local\_file.txt) to the dcuser home directory:
 
 ```bash
-$  scp README your.UMB.username@chimera.umb.edu:/home/your.UMB.username/
+$  scp README your.UMB.username@chimera.umb.edu:/itcgastorage/share_home/your.UMB.username/
 ```
 
 and enter your UMB password when prompted.
