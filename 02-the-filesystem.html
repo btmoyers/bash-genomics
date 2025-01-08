@@ -108,11 +108,11 @@
   Introduction to the Command Line for Genomics
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 12%" class="percentage">
-    12%
+<aside class="col-md-12 lesson-progress"><div style="width: 16%" class="percentage">
+    16%
   </div>
   <div class="progress data">
-    <div class="progress-bar data" role="progressbar" style="width: 12%" aria-valuenow="12" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar data" role="progressbar" style="width: 16%" aria-valuenow="16" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -319,7 +319,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Navigating Files and Directories</h1>
-        <p>Last updated on 2025-01-03 |
+        <p>Last updated on 2025-01-08 |
 
         <a href="https://github.com/datacarpentry/shell-genomics/edit/main/episodes/02-the-filesystem.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -412,7 +412,7 @@ the contents of the directory are correct.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>/home/your.UMB.username/itcga_workshop</code></pre>
+<pre class="output" tabindex="0"><code>/itcgastorage/share_home/your.UMB.username/itcga_workshop</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -432,7 +432,8 @@ back one level in our file system.</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">$</span> ls ../../</span></code></pre>
 </div>
-<p>prints the contents of <code>/home</code> (lots of users!).</p>
+<p>prints the contents of <code>/itcgastorage/share_home/</code> (other
+users!).</p>
 <div id="finding-hidden-directories" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -603,22 +604,23 @@ in that hierarchy. Navigate to the home directory, then enter the
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>/home/your.UMB.username</code></pre>
+<pre class="output" tabindex="0"><code>/itcgastorage/share_home/your.UMB.username</code></pre>
 </div>
 <p>This is the full name of your home directory. This tells you that you
 are in a directory called <code>your.UMB.username</code>, which sits
-inside a directory called <code>home</code> which sits inside the very
-top directory in the hierarchy. The very top of the hierarchy is a
-directory called <code>/</code> which is usually referred to as the
-<em>root directory</em>. So, to summarize:
-<code>your.UMB.username</code> is a directory in <code>home</code> which
-is a directory in <code>/</code>. More on <code>root</code> and
-<code>home</code> in the next section.</p>
+inside a directory called <code>share_home</code>, which sits inside a
+directory called <code>itcgastorage</code> which is inside the very top
+directory in the hierarchy. The very top of the hierarchy is a directory
+called <code>/</code> which is usually referred to as the <em>root
+directory</em>. So, to summarize: <code>your.UMB.username</code> is a
+directory in <code>share_home</code> which is a directory in
+<code>itcgastorage</code> which is in <code>/</code>. More on
+<code>root</code> and <code>home</code> in the next section.</p>
 <p>Now enter the following command:</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> cd /home/your.UMB.username/itcga_workshop/.shh_hidden</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> cd /itcgastorage/share_home/your.UMB.username/itcga_workshop/.shh_hidden</span></code></pre>
 </div>
 <p>This jumps forward multiple levels to the <code>.shh_hidden</code>
 directory. Now go back to the home directory.</p>
@@ -704,10 +706,10 @@ require special permissions which are not discussed here, so it’s best
 to avoid them and work within your home directory. Dealing with the
 <code>home</code> directory is very common. The tilde character,
 <code>~</code>, is a shortcut for your home directory. In our case, the
-<code>root</code> directory is <strong>two</strong> levels above our
+<code>root</code> directory is <strong>three</strong> levels above our
 <code>home</code> directory, so <code>cd</code> or <code>cd ~</code>
-will take you to <code>/home/your.UMB.username</code> and
-<code>cd /</code> will take you to <code>/</code>. Navigate to the
+will take you to <code>/itcgastorage/share_home/your.UMB.username</code>
+and <code>cd /</code> will take you to <code>/</code>. Navigate to the
 <code>itcga_workshop</code> directory:</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -724,7 +726,7 @@ will take you to <code>/home/your.UMB.username</code> and
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>bin  itcga_workshop</code></pre>
+<pre class="output" tabindex="0"><code><span><span class="va">itcga_workshop</span></span></code></pre>
 </div>
 <p>This prints the contents of your home directory, without you needing
 to type the full path.</p>
@@ -808,8 +810,8 @@ file system.</li>
   "url": "https://datacarpentry.github.io/shell-genomics/02-the-filesystem.html",
   "identifier": "https://datacarpentry.github.io/shell-genomics/02-the-filesystem.html",
   "dateCreated": "2015-03-24",
-  "dateModified": "2025-01-03",
-  "datePublished": "2025-01-07"
+  "dateModified": "2025-01-08",
+  "datePublished": "2025-01-08"
 }
 
   </script><script>
