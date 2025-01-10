@@ -184,7 +184,7 @@ It will look like nothing happened, but now if you look at `scripted_bad_reads.t
 We want the script to tell us when it's done.
 
 1. Open `bad-reads-script.sh` and add the line `echo "Script finished!"` after the `grep` command and save the file.
-2. Submit the updated script with `sbatch`.
+2. Run the updated script using `bash`.
 
 :::::::::::::::  solution
 
@@ -259,6 +259,7 @@ Here is an example of the text you should add to the top of a job script:
 #SBATCH --time=1:00:00 # the maximum time for the job
 #SBATCH --mem=4gb # the amount of RAM 
 #SBATCH --partition=itcga # the specific server in chimera we are using
+#SBATCH --reservation=ITCGA2025 # we have reserved access
 #SBATCH --error=%x-%A_%a.err   # a filename to save error messages into
 #SBATCH --output=%x-%A_%a.out  # a filename to save any printed output into
 ```
